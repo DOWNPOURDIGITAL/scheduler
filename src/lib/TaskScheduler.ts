@@ -57,6 +57,8 @@ export default class TaskScheduler {
 		const time = performance.now();
 		const delta = ( time - this.lastFrameTime ) / 16.667;
 
+		this.lastFrameTime = time;
+
 		[
 			...this.preTasks,
 			...this.tasks,
