@@ -1,0 +1,42 @@
+{
+  "name": "@downpourdigital/scheduler",
+  "version": "0.0.0",
+  "main": "dist/index.js",
+  "author": "JohH <code@johh.net>",
+  "license": "MIT",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DOWNPOURDIGITAL/scheduler.git"
+  },
+  "homepage": "https://github.com/DOWNPOURDIGITAL/scheduler#readme",
+  "keywords": [
+    "render",
+    "scheduler",
+    "task",
+    "loop"
+  ],
+  "scripts": {
+    "build": "rollup -c && npm run declaration",
+    "declaration": "tsc --emitDeclarationOnly",
+    "type-check": "tsc --noEmit",
+    "dev": "rollup -c -w"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0-rc.3",
+    "@babel/core": "^7.0.0-rc.3",
+    "@babel/plugin-proposal-class-properties": "^7.0.0-rc.3",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-rc.3",
+    "@babel/preset-env": "^7.0.0-rc.3",
+    "@babel/preset-typescript": "^7.0.0-rc.3",
+    "babel-eslint": "^8.2.6",
+    "rollup": "^0.65.0",
+    "rollup-plugin-babel": "^4.0.2",
+    "rollup-plugin-typescript": "^0.8.1",
+    "tslint": "^5.11.0",
+    "tslint-config-airbnb": "^5.10.0",
+    "tslint-react": "^3.6.0",
+    "typescript": "^3.0.3"
+  },
+  "dependencies": {}
+}
