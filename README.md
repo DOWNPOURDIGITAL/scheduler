@@ -1,4 +1,4 @@
-# @downpourdigital/physics
+# @downpourdigital/scheduler
 ### **THIS PACKAGE IS WORK IN PROGRESS!**
 
 Quick'n'dirty render task scheduler.
