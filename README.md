@@ -5,10 +5,10 @@ Quick'n'dirty render task scheduler.
 
 # Installation
 ```
-yarn add --dev @downpourdigital/scheduler
+yarn add @downpourdigital/scheduler
 ```
 ```
-npm i -D @downpourdigital/scheduler
+npm i @downpourdigital/scheduler
 ```
 # Usage
 ```javascript
