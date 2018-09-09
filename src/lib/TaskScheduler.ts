@@ -40,9 +40,15 @@ export default class TaskScheduler {
 
 
 	public unschedule( task: ScheduledTask ) {
-		this.preTasks.splice( this.preTasks.findIndex( t => t === task ), 1 );
-		this.tasks.splice( this.tasks.findIndex( t => t === task ), 1 );
-		this.postTasks.splice( this.postTasks.findIndex( t => t === task ), 1 );
+		if ( this.preTasks.includes( task ) ) {
+			this.preTasks.splice( this.preTasks.findIndex( t => t === task ), 1 );
+		}
+		if ( this.tasks.includes( task ) ) {
+			this.tasks.splice( this.tasks.findIndex( t => t === task ), 1 );
+		}
+		if ( this.postTasks.includes( task ) ) {
+			this.postTasks.splice( this.postTasks.findIndex( t => t === task ), 1 );
+		}
 	}
 
 
