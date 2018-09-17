@@ -61,7 +61,7 @@ export default class TaskScheduler {
 
 	public render() {
 		const time = performance.now();
-		const delta = ( time - this.lastFrameTime ) / 16.667;
+		const delta = Math.min( 8, ( time - this.lastFrameTime ) / 16.667 );
 
 		this.lastFrameTime = time;
 
