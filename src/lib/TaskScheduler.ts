@@ -9,6 +9,19 @@ export default class TaskScheduler {
 	private postTasks: ScheduledTask[] = [];
 
 
+	constructor() {
+		document.addEventListener( 'visibilitychange', () => {
+			if ( this.nextFrame ) {
+				if ( document.hidden ) {
+					this.stop();
+				} else {
+					this.start();
+				}
+			}
+		});
+	}
+
+
 	private consume( func: renderFunction, priority: number, list: ScheduledTask[]): ScheduledTask {
 		const task = new ScheduledTask({
 			func,
@@ -83,6 +96,7 @@ export default class TaskScheduler {
 	public start() {
 		this.stop();
 
+		this.lastFrameTime = performance.now();
 		this.nextFrame = requestAnimationFrame( () => this.loop() );
 	}
 
