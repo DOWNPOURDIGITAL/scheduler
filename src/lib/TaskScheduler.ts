@@ -7,6 +7,7 @@ export default class TaskScheduler {
 	private tasks: ScheduledTask[] = [];
 	private preTasks: ScheduledTask[] = [];
 	private postTasks: ScheduledTask[] = [];
+	private deferredTasks: ScheduledTask[] = [];
 
 
 	constructor() {
@@ -52,23 +53,34 @@ export default class TaskScheduler {
 	}
 
 
+	public scheduleDeferred( func: renderFunction, priority?: number ): ScheduledTask {
+		return this.consume( func, priority || 1000, this.deferredTasks );
+	}
+
+
 	public unschedule( task: ScheduledTask ) {
-		if ( this.preTasks.includes( task ) ) {
-			this.preTasks.splice( this.preTasks.findIndex( t => t === task ), 1 );
-		}
-		if ( this.tasks.includes( task ) ) {
-			this.tasks.splice( this.tasks.findIndex( t => t === task ), 1 );
-		}
-		if ( this.postTasks.includes( task ) ) {
-			this.postTasks.splice( this.postTasks.findIndex( t => t === task ), 1 );
-		}
+		[
+			this.preTasks,
+			this.tasks,
+			this.postTasks,
+			this.deferredTasks,
+		].forEach( ( taskList ) => {
+			if ( taskList.includes( task ) ) {
+				taskList.splice( taskList.findIndex( t => t === task ), 1 );
+			}
+		});
 	}
 
 
 	public sort() {
-		this.preTasks.sort( ( a, b ) => a.priority - b.priority );
-		this.tasks.sort( ( a, b ) => a.priority - b.priority );
-		this.postTasks.sort( ( a, b ) => a.priority - b.priority );
+		[
+			this.preTasks,
+			this.tasks,
+			this.postTasks,
+			this.deferredTasks,
+		].forEach( ( taskList ) => {
+			taskList.sort( ( a, b ) => a.priority - b.priority );
+		});
 	}
 
 
@@ -83,6 +95,12 @@ export default class TaskScheduler {
 			...this.tasks,
 			...this.postTasks,
 		].forEach( t => t.render( delta, time ) );
+
+
+		const deferredTask = this.deferredTasks.shift();
+		if ( deferredTask ) {
+			deferredTask.render( delta, time );
+		}
 	}
 
 
