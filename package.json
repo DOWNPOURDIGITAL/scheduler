@@ -14,7 +14,8 @@
     "render",
     "scheduler",
     "task",
-    "loop"
+	"loop",
+	"deferred"
   ],
   "scripts": {
     "build": "rollup -c && npm run declaration",
