@@ -1,3 +1,5 @@
 import TaskScheduler from './lib/TaskScheduler';
 
-export default new TaskScheduler();
+const scheduler = new TaskScheduler();
+
+export default scheduler;
