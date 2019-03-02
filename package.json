@@ -1,6 +1,6 @@
 {
   "name": "@downpourdigital/scheduler",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "dist/index.js",
   "author": "JohH <code@johh.net>",
   "license": "MIT",
@@ -14,8 +14,8 @@
     "render",
     "scheduler",
     "task",
-	"loop",
-	"deferred"
+    "loop",
+    "deferred"
   ],
   "scripts": {
     "build": "rollup -c && npm run declaration",
