@@ -8,6 +8,7 @@ export default class TaskScheduler {
 	private preTasks: ScheduledTask[] = [];
 	private postTasks: ScheduledTask[] = [];
 	private deferredTasks: ScheduledTask[] = [];
+	private runDeferred: boolean = true;
 
 
 	constructor() {
@@ -97,9 +98,11 @@ export default class TaskScheduler {
 		].forEach( t => t.render( delta, time ) );
 
 
-		const deferredTask = this.deferredTasks.shift();
-		if ( deferredTask ) {
-			deferredTask.render( delta, time );
+		if ( this.runDeferred ) {
+			const deferredTask = this.deferredTasks.shift();
+			if ( deferredTask ) {
+				deferredTask.render( delta, time );
+			}
 		}
 	}
 
@@ -121,5 +124,15 @@ export default class TaskScheduler {
 
 	public stop() {
 		if ( this.nextFrame ) cancelAnimationFrame( this.nextFrame );
+	}
+
+
+	public suspendDeferred() {
+		this.runDeferred = false;
+	}
+
+
+	public resumedDeferred() {
+		this.runDeferred = true;
 	}
 }
