@@ -132,7 +132,7 @@ export default class TaskScheduler {
 	}
 
 
-	public resumedDeferred() {
+	public resumeDeferred() {
 		this.runDeferred = true;
 	}
 }
