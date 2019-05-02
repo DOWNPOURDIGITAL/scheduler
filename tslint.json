@@ -2,6 +2,11 @@
 	"extends": "tslint-config-airbnb",
 
 	"rules": {
+		"indent": [
+			true,
+			"tabs",
+			4
+		],
 		"ter-indent": [true, "tab", 4],
 		"no-consecutive-blank-lines": [true, 2],
 		"variable-name": [true, "check-format", "ban-keywords", "allow-leading-underscore"],
