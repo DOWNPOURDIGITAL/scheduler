@@ -24,22 +24,22 @@
     "dev": "rollup -c -w"
   },
   "devDependencies": {
-    "@babel/cli": "^7.5.0",
-    "@babel/core": "^7.5.4",
-    "@babel/plugin-proposal-class-properties": "^7.5.0",
-    "@babel/plugin-proposal-object-rest-spread": "^7.5.4",
-    "@babel/preset-env": "^7.5.4",
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
     "@babel/preset-typescript": "^7.3.3",
-    "babel-eslint": "^10.0.2",
-    "eslint": "^6.0.1",
-    "rollup": "^1.17.0",
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.3.0",
+    "rollup": "^1.20.3",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-typescript": "^1.0.1",
     "tslib": "^1.10.0",
-    "tslint": "^5.18.0",
+    "tslint": "^5.19.0",
     "tslint-config-airbnb": "^5.11.1",
     "tslint-react": "^4.0.0",
-    "typescript": "^3.5.3"
+    "typescript": "^3.6.2"
   },
   "dependencies": {}
 }
