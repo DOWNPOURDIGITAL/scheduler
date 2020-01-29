@@ -12,15 +12,17 @@ export default class TaskScheduler {
 
 
 	constructor() {
-		document.addEventListener( 'visibilitychange', () => {
-			if ( this.nextFrame ) {
-				if ( document.hidden ) {
-					this.stop();
-				} else {
-					this.start();
+		if ( typeof document !== 'undefined' ) {
+			document.addEventListener( 'visibilitychange', () => {
+				if ( this.nextFrame ) {
+					if ( document.hidden ) {
+						this.stop();
+					} else {
+						this.start();
+					}
 				}
-			}
-		});
+			});
+		}
 	}
 
 
