@@ -2,7 +2,7 @@ import ScheduledTask, { renderFunction } from './ScheduledTask';
 
 
 export default class TaskScheduler {
-	private lastFrameTime: number = performance.now();
+	private lastFrameTime: number = 0;
 	private nextFrame?: number;
 	private tasks: ScheduledTask[] = [];
 	private preTasks: ScheduledTask[] = [];
