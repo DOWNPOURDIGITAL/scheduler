@@ -93,8 +93,9 @@ export default class Scheduler {
 
 
 	public pause(): void {
-		this.pauseStart = performance.now();
 		if ( this.nextFrame ) {
+			this.pauseStart = performance.now();
+
 			cancelAnimationFrame( this.nextFrame );
 			this.nextFrame = null;
 		}
