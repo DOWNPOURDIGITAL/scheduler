@@ -25,12 +25,10 @@ export default class Scheduler {
 	constructor() {
 		if ( typeof document !== 'undefined' ) {
 			document.addEventListener( 'visibilitychange', () => {
-				if ( this.nextFrame ) {
-					if ( document.hidden ) {
-						this.pause();
-					} else {
-						this.start();
-					}
+				if ( document.hidden ) {
+					this.pause();
+				} else {
+					this.start();
 				}
 			});
 		}
