@@ -1,45 +1,58 @@
 {
-  "name": "@downpourdigital/scheduler",
-  "version": "0.0.10",
-  "main": "dist/index.js",
-  "author": "JohH <code@johh.net>",
-  "license": "MIT",
-  "private": false,
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/DOWNPOURDIGITAL/scheduler.git"
-  },
-  "homepage": "https://github.com/DOWNPOURDIGITAL/scheduler#readme",
-  "keywords": [
-    "render",
-    "scheduler",
-    "task",
-    "loop",
-    "deferred"
-  ],
-  "scripts": {
-    "build": "rollup -c && npm run declaration",
-    "declaration": "tsc --emitDeclarationOnly",
-    "type-check": "tsc --noEmit",
-    "dev": "rollup -c -w"
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.5.5",
-    "@babel/core": "^7.5.5",
-    "@babel/plugin-proposal-class-properties": "^7.5.5",
-    "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
-    "@babel/preset-typescript": "^7.3.3",
-    "babel-eslint": "^10.0.3",
-    "eslint": "^6.3.0",
-    "rollup": "^1.20.3",
-    "rollup-plugin-babel": "^4.3.3",
-    "rollup-plugin-typescript": "^1.0.1",
-    "tslib": "^1.10.0",
-    "tslint": "^5.19.0",
-    "tslint-config-airbnb": "^5.11.1",
-    "tslint-react": "^4.0.0",
-    "typescript": "^3.6.2"
-  },
-  "dependencies": {}
+	"name": "@downpourdigital/boxes",
+	"version": "0.0.0",
+	"description": "Render task scheduler",
+	"main": "dist/cjs/scheduler.js",
+	"module": "dist/esm/scheduler.js",
+	"repository": "https://github.com/DOWNPOURDIGITAL/scheduler.git",
+	"author": "johh <code@johh.net>",
+	"license": "BSD-4-Clause",
+	"private": false,
+	"keywords": [
+		"render",
+		"scheduler",
+		"task",
+		"loop",
+		"deferred"
+	],
+	"scripts": {
+		"build": "rollup -c",
+		"declaration": "tsc --emitDeclarationOnly",
+		"type-check": "tsc --noEmit",
+		"dev": "rollup -c -w",
+		"lint": "eslint --ext .ts,.tsx,.js src/"
+	},
+	"devDependencies": {
+		"@babel/cli": "^7.10.5",
+		"@babel/core": "^7.10.5",
+		"@babel/plugin-proposal-class-properties": "^7.10.4",
+		"@babel/plugin-proposal-object-rest-spread": "^7.10.4",
+		"@babel/preset-env": "^7.10.4",
+		"@babel/preset-typescript": "^7.10.4",
+		"@types/gl-matrix": "^2.4.5",
+		"@typescript-eslint/eslint-plugin": "^2",
+		"@typescript-eslint/parser": "^2",
+		"babel-eslint": "^10.0.2",
+		"eslint": "^6",
+		"eslint-config-airbnb-typescript": "^7",
+		"eslint-plugin-import": "^2.21.1",
+		"eslint-plugin-jsx-a11y": "^6.2.3",
+		"eslint-plugin-react": "^7.20.0",
+		"eslint-plugin-react-hooks": "^2.5.0",
+		"husky": "^4.2.5",
+		"lint-staged": "^10.2.11",
+		"rollup": "^2.22.2",
+		"rollup-plugin-typescript2": "^0.27.1",
+		"tslib": "^2.0.0",
+		"typescript": "^3.9.7"
+	},
+	"dependencies": {},
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged"
+		}
+	},
+	"lint-staged": {
+		"*.{ts,tsx,js}": "eslint --max-warnings 1"
+	}
 }

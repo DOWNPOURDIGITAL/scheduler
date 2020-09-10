@@ -1,22 +1,20 @@
-import typescript from 'rollup-plugin-typescript';
-import babel from 'rollup-plugin-babel';
-
+import typescript from 'rollup-plugin-typescript2';
 
 export default {
-	input: './src/index.ts',
+	input: './src/scheduler.ts',
 
-	output: {
-		file: 'dist/index.js',
-		format: 'cjs'
-	},
+	output: [
+		{
+			file: 'dist/esm/scheduler.js',
+			format: 'esm',
+		},
+		{
+			file: 'dist/cjs/scheduler.js',
+			format: 'cjs',
+		},
+	],
 
 	plugins: [
-		typescript({
-			typescript: require('typescript')
-		}),
-		babel({
-			babelrc: false,
-			presets: [['env', { modules: false }]]
-		}),
+		typescript(),
 	],
-}
+};
