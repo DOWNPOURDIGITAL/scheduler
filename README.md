@@ -1,5 +1,7 @@
 # @downpourdigital/scheduler
 
+![npm bundle size](https://img.shields.io/bundlephobia/minzip/@downpourdigital/scheduler?color=green&style=for-the-badge) ![npm dependencies](https://img.shields.io/david/DOWNPOURDIGITAL/scheduler?color=green&style=for-the-badge)
+
 A simple render task scheduler.
 
 ## Installation
