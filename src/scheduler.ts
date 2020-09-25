@@ -1,4 +1,7 @@
-import Scheduler, { Task } from './lib/Scheduler';
+import Scheduler, { LoopTask, Task } from './lib/Scheduler';
+
+
+const scheduler = new Scheduler();
 
 
 const consume = ( task: Task, list: Task[]): () => void => {
@@ -10,13 +13,6 @@ const consume = ( task: Task, list: Task[]): () => void => {
 	};
 };
 
-
-const scheduler = new Scheduler();
-
-
-export const loop = ( task: Task ): () => void => (
-	consume( task, scheduler.tasks.loop )
-);
 
 export const read = ( task: Task ): () => void => (
 	consume( task, scheduler.tasks.read )
@@ -35,8 +31,13 @@ export const postRender = ( task: Task ): () => void => (
 );
 
 
-	consume( task, scheduler.tasks.defer )
-);
+export const loop = ( task: LoopTask ): () => void => {
+	scheduler.tasks.loop.push( task );
+	return (): void => {
+		scheduler.cancel( task );
+	};
+};
+
 export const defer = ( task: Task, priority = 0 ): () => void => {
 	const list = scheduler.deferredTasks;
 	const deferredTask = {
