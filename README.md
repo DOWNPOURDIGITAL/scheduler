@@ -1,45 +1,107 @@
 # @downpourdigital/scheduler
-### **THIS PACKAGE IS WORK IN PROGRESS!**
 
-Quick'n'dirty render task scheduler.
+![npm bundle size](https://img.shields.io/bundlephobia/minzip/@downpourdigital/scheduler?color=green&style=for-the-badge) ![npm dependencies](https://img.shields.io/david/DOWNPOURDIGITAL/scheduler?color=green&style=for-the-badge)
 
-# Installation
+A simple render task scheduler.
+
+## Installation
+
 ```
 yarn add @downpourdigital/scheduler
 ```
 ```
-npm i @downpourdigital/scheduler
+npm i --save @downpourdigital/scheduler
 ```
-# Usage
-```javascript
-import Scheduler from '@downpourdigital/scheduler';
 
-
-const priority = 42; // optional value to manipulate execution order, default is 1000
-
-const taskA = Scheduler.schedulePre( ( delta, time ) => {
-	// reoccurring, run once per frame
-	// groundbreaking physics and animation calculations here
-}, priority );
-const taskB = Scheduler.schedule( ( delta, time ) => {
-	// reoccurring, run once per frame
-	// shiny rendering here
-}, priority );
-const taskC = Scheduler.schedulePost( ( delta, time ) => {
-	// reoccurring, run once per frame
-	// calculations for next frame
-}, priority );
-const taskD = Scheduler.scheduleDeferred( ( delta, time ) => {
-	// run only once, may be delayed to improve performance.
-	// heavy calculations here (such as texture uploads to gpu). Only one task is run per frame.
-}, priority );
-
-
-taskA.setPriority( 999 ); // priority can be set for an already scheduled task
-taskD.unschedule(); // tasks can be cancelled like this –
-Scheduler.unschedule( taskC ); // or like this.
-
-Scheduler.render(); // render frame manually
-Scheduler.start(); // start loop manually
-Scheduler.stop(); // stop loop manually
+## Usage
+```typescript
+import scheduler, {
+	read,
+	update,
+	render,
+	postRender,
+	loop,
+	defer,
+} from "@downpourdigital/scheduler";
 ```
+
+Each frame is divided intro several phases:
+
+1. `read`
+2. `update`
+3. `render`
+4. `postRender`
+
+They should be self-descriptive. Each phase is executed after the other.
+
+`read()`, `update()`, `render()` and `postRender()` cause the supplied function to be executed at the next possible opportunity.
+
+Additionally, `defer()` allows you to postpone an expensive action. A maximum of one action is executed per frame. The deferred queue can be paused and resumed with `scheduler.pauseDeferred()` and `scheduler.resumeDeferred()` respectively.
+The execution order can be altered by giving the task a priority. (The higher, the earlier the task will be executed.) The default priority is `0`.
+
+`loop()` lets you schedule a function for execution on every frame.
+
+All helpers return a function, that, when executed, cancels the task.
+
+
+## Start
+
+To start the scheduler, call `scheduler.start()` once your application is ready. It can be paused again with `scheduler.pause()`. Execution will be automatically paused if the tab/window is out of view.
+
+Similarly, `scheduler.resumeDeferred()` needs to be called to start executing deferred tasks. Ideally this should happen inside a call to `window.requestIdleCallback`.
+
+
+
+## Example
+
+```typescript
+import scheduler, {
+	read,
+	update,
+	render,
+	postRender,
+	loop,
+	defer,
+} from '@downpourdigital/scheduler';
+
+
+scheduler.start();
+window.requestIdleCallback( () => scheduler.resumeDeferred() );
+
+
+// update something once
+update( ( delta, time ) => someDomNode.style.opacity = 1 );
+
+const cancel = loop( ( delta, time ) => ([
+	update( () => {
+		someDomNode.style.opacity = Math.sin( time ) * .5 + .5;
+	}),
+	postRender( () => {
+		// calculate something for next frame
+		// e.g. advance a physics sim
+	}),
+]) );
+
+// calling cancel() will cancel the loop as well as all
+// associated tasks that have not yet been executed
+
+setTimeout( () => {
+	// cancel the loop after 1 second
+	cancel();
+}, 1000 );
+
+defer( () => {
+	// something expensive
+	// like uploading a texture to the GPU
+}, 1 ); // optional priority
+```
+
+## To do
+
+- better docs
+- testing
+
+
+
+## License
+© 2020 [DOWNPOUR DIGITAL](https://downpour.digital), licensed under BSD-4-Clause
