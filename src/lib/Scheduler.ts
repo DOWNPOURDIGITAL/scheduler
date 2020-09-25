@@ -1,5 +1,9 @@
 
 export type Task = ( delta: number, time: number ) => void;
+export type DeferredTask = {
+	priority: number;
+	task: Task;
+};
 
 
 export default class Scheduler {
@@ -17,9 +21,10 @@ export default class Scheduler {
 		update: [],
 		render: [],
 		postRender: [],
-		defer: [],
 		loop: [],
 	};
+
+	public deferredTasks: DeferredTask[] = [];
 
 
 	constructor() {
@@ -58,13 +63,13 @@ export default class Scheduler {
 		setTimeout( () => this.flush( this.tasks.postRender ), 0 );
 
 
-		if ( this.runDeferred ) {
-			if ( this.tasks.defer.length > 0 ) {
-				setTimeout( () => {
-					const deferredTask = this.tasks.defer.shift();
-					if ( deferredTask ) deferredTask( delta, time );
-				}, 0 );
-			}
+		if ( this.deferredTasks.length > 0 ) {
+			setTimeout( () => {
+				if ( this.runDeferred ) {
+					const deferredTask = this.deferredTasks.shift();
+					if ( deferredTask ) deferredTask.task( delta, time );
+				}
+			}, 0 );
 		}
 
 		this.lastFrameTime = time;

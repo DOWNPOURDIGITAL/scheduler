@@ -34,9 +34,23 @@ export const postRender = ( task: Task ): () => void => (
 	consume( task, scheduler.tasks.postRender )
 );
 
-export const defer = ( task: Task ): () => void => (
+
 	consume( task, scheduler.tasks.defer )
 );
+export const defer = ( task: Task, priority = 0 ): () => void => {
+	const list = scheduler.deferredTasks;
+	const deferredTask = {
+		task,
+		priority,
+	};
+	list.push( deferredTask );
+	list.sort( ( a, b ) => b.priority - a.priority );
+	return (): void => {
+		if ( list.includes( deferredTask ) ) {
+			list.splice( list.findIndex( t => t === deferredTask ), 1 );
+		}
+	};
+};
 
 
 export default scheduler;
