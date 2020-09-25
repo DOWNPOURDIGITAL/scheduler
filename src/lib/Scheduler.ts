@@ -79,6 +79,7 @@ export default class Scheduler {
 		}
 
 		this.lastFrameTime = time;
+		cancelAnimationFrame( this.nextFrame );
 		this.nextFrame = requestAnimationFrame( () => this.step() );
 	}
 
