@@ -46,7 +46,7 @@ All helpers return a function, that, when executed, cancels the task.
 
 ## Start
 
-To start the scheduler, call `scheduler.start()` once your application is ready. It can be paused again with `scheduler.pause()`. Execution will automatically be paused if the tab/window is out of view.
+To start the scheduler, call `scheduler.start()` once your application is ready. It can be paused again with `scheduler.pause()`. Execution will be automatically paused if the tab/window is out of view.
 
 Similarly, `scheduler.resumeDeferred()` needs to be called to start executing deferred tasks. Ideally this should happen inside a call to `window.requestIdleCallback`.
 

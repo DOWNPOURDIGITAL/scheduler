@@ -5,5 +5,7 @@ tslint.json
 .editorconfig
 .clang-format
 .nvmrc
+.eslintignore
+.eslintrc.js
 yarn.lock
 yarn-error.log
