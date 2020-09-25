@@ -59,9 +59,11 @@ export default class Scheduler {
 
 
 		if ( this.runDeferred ) {
-			const deferredTask = this.tasks.defer.shift();
-			if ( deferredTask ) {
-				setTimeout( () => deferredTask( delta, time ), 0 );
+			if ( this.tasks.defer.length > 0 ) {
+				setTimeout( () => {
+					const deferredTask = this.tasks.defer.shift();
+					if ( deferredTask ) deferredTask( delta, time );
+				}, 0 );
 			}
 		}
 
