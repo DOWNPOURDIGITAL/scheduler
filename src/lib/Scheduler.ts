@@ -15,6 +15,8 @@ export default class Scheduler {
 	private nextFrame: number;
 	private runDeferred = false;
 	private associatedTasks = new Map<LoopTask, cancelFunc[]>();
+	private queuedPostRenderTasks: Task[] = [];
+	private lastPostRenderFlush: number;
 	public time = 0;
 	public delta = 1;
 	public tasks: {
@@ -51,6 +53,12 @@ export default class Scheduler {
 
 
 	private step(): void {
+		// check if post tasks failed to run
+		if ( this.queuedPostRenderTasks.length !== 0 ) {
+			window.clearTimeout( this.lastPostRenderFlush );
+			this.flush( this.queuedPostRenderTasks );
+		}
+
 		const time = performance.now() - this.timeOffset;
 		const delta = Math.min( 8, ( time - this.lastFrameTime ) / 16.667 );
 
@@ -66,16 +74,21 @@ export default class Scheduler {
 		this.flush( this.tasks.update );
 		this.flush( this.tasks.render );
 
-		setTimeout( () => this.flush( this.tasks.postRender ), 0 );
+		this.queuedPostRenderTasks = this.tasks.postRender.slice( 0 );
+		this.tasks.postRender.length = 0;
+		this.lastPostRenderFlush = window.setTimeout(
+			() => this.flush( this.queuedPostRenderTasks ),
+			0,
+		);
 
 
 		if ( this.deferredTasks.length > 0 ) {
-			setTimeout( () => {
+			window.setTimeout( () => {
 				if ( this.runDeferred ) {
 					const deferredTask = this.deferredTasks.shift();
 					if ( deferredTask ) deferredTask.task( delta, time );
 				}
-			}, 0 );
+			}, 1 );
 		}
 
 		this.lastFrameTime = time;
@@ -95,6 +108,13 @@ export default class Scheduler {
 		if ( this.associatedTasks.has( task ) ) {
 			this.associatedTasks.get( task ).forEach( c => c() );
 			this.associatedTasks.delete( task );
+		}
+
+		if ( this.queuedPostRenderTasks.includes( task ) ) {
+			this.queuedPostRenderTasks.splice(
+				this.queuedPostRenderTasks.findIndex( t => t === task ),
+				1,
+			);
 		}
 	}
 

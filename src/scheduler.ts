@@ -6,11 +6,15 @@ const scheduler = new Scheduler();
 
 const consume = ( task: Task, list: Task[]): () => void => {
 	list.push( task );
-	return (): void => {
-		if ( list.includes( task ) ) {
-			list.splice( list.findIndex( t => t === task ), 1 );
+	return list === scheduler.tasks.loop || list === scheduler.tasks.postRender
+		? (): void => {
+			scheduler.cancel( task );
 		}
-	};
+		: (): void => {
+			if ( list.includes( task ) ) {
+				list.splice( list.findIndex( t => t === task ), 1 );
+			}
+		};
 };
 
 
@@ -30,13 +34,10 @@ export const postRender = ( task: Task ): () => void => (
 	consume( task, scheduler.tasks.postRender )
 );
 
+export const loop = ( task: LoopTask ): () => void => (
+	consume( task, scheduler.tasks.loop )
+);
 
-export const loop = ( task: LoopTask ): () => void => {
-	scheduler.tasks.loop.push( task );
-	return (): void => {
-		scheduler.cancel( task );
-	};
-};
 
 export const defer = ( task: Task, priority = 0 ): () => void => {
 	const list = scheduler.deferredTasks;
